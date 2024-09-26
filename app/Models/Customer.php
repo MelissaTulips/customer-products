@@ -11,24 +11,33 @@ class Customer extends Model
 
     protected $table = 'customers';
     protected $primaryKey = 'customer_id';
-    public $timestamps=false;
+    public $timestamps = false;
 
-
-         protected $fillable = [
+    protected $fillable = [
         'first_name',
         'last_name',
         'address',
         'city',
         'state',
-        'points'
+        'points',
     ];
 
-    public function isGoldenMember(){
+    // Define the relationship: Customer has many Orders
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'customer_id', 'customer_id');
+    }
+
+    public function isGoldenMember()
+    {
         return $this->points > 2000;
-
-
     }
 
 
-}
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}
